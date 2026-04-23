@@ -1,14 +1,13 @@
-import app from "./src/app.js";
 import dotenv from "dotenv";
-import { connectDB } from "./src/config/database.js";
-
 dotenv.config();
 
-const PORT = process.loadEnvFile.PORT || 8080;
+import app from "./src/app.js";
+import { connectDB } from "./src/config/database.js";
 
-app.listen (PORT, () => {
-    console.log (`Servidor corriendo en puesto ${PORT}`);
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`);
 });
-
 
 connectDB();
