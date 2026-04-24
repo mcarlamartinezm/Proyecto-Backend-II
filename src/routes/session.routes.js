@@ -38,4 +38,8 @@ router.get(
   }
 );
 
+router.get('/session-user', (req, res) => {
+    res.json(req.session.user || 'No hay usuario en sesión');
+});
+
 export default router;

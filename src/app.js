@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import viewsRouter from './routes/views.router.js';
 import passport from "passport";
+import session from "express-session";
 import './strategies/google.strategy.js';
 
 const app = express ();
@@ -22,8 +23,17 @@ app.use((req, res, next) =>{
     res.locals.user = req.user || null;
     next();
 });
+
+app.use(session({
+    secret: 'secretSessionKey',
+    resave: false,
+    saveUninitialized: false,
+    cookie:{maxAge: 100 * 60 * 60}
+}));
+
 app.use('/api/session', sessionRouter);
 app.use('/', viewsRouter);
+
 
 
 

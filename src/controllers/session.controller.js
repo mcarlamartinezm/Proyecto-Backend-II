@@ -47,7 +47,7 @@ export const login = async (req, res) => {
   try{
     const {email, password} =req.body;
 
-    //validad que lleguen datos
+    //validar que lleguen datos
     if (!email|| !password){
       return res.status(400).json ({ error: "Faltan datos por ingresar" });
     }
@@ -66,6 +66,15 @@ export const login = async (req, res) => {
       return res.status(401).json ({ error: "Credenciales de usuario Inválidas"});
     }
 
+    //session de usuario
+   req.session.user = {
+    id: user._id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: user.role
+   }; 
+ 
     //Crear payload 
     const payload = {
       id: user._id,
