@@ -25,10 +25,10 @@ router.get(
       });
 
       res.cookie('token', token, {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: false,
-        maxAge: 3600000
+        httpOnly: true, //no accesible desde js (seguridad)
+        sameSite: 'lax', //Protección CSRF básica
+        secure: false, //true en profuccipon con HTTPS
+        maxAge: 60 * 60 * 1000 // 1 hora 
       });
 
       res.redirect('/profile');

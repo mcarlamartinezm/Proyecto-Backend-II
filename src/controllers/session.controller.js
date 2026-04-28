@@ -66,7 +66,9 @@ export const login = async (req, res) => {
       return res.status(401).json ({ error: "Credenciales de usuario Inválidas"});
     }
 
-    //session de usuario
+    //========= session de usuario
+    //Guarda información del usuario en el servidor
+    //Permite mantener estado entre los requests
    req.session.user = {
     id: user._id,
     first_name: user.first_name,
@@ -75,17 +77,18 @@ export const login = async (req, res) => {
     role: user.role
    }; 
  
-    //Crear payload 
-    const payload = {
+    //payload auxiliar (referencia para JWT)
+    /*const payload = {
       id: user._id,
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
       age: user.age,
       role: user.role,
-    };
+    };*/
 
-    //Generar Token
+
+    // Genera JasonWebToken (metodo principal de autenticación) Firma token con información mínima del user
     const token = jwt.sign({
       id: user._id,
       email: user.email,
@@ -95,13 +98,15 @@ export const login = async (req, res) => {
     
   });
 
-    //enviar una respuesta
+    //Respuesta httpOnly. Almacena JWT de forma segura en el cliente httpOnly, protección XSS
     res.cookie('token', token, { 
       httpOnly: true,
       sameSite: 'lax',
       secure: false,
       maxAge: 60 * 60 * 1000 //1hora
     })
+
+    // redirección a ruta protegida
     res.redirect('/profile');
 
 

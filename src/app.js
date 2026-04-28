@@ -10,20 +10,25 @@ import passport from "passport";
 import session from "express-session";
 import './strategies/google.strategy.js';
 
-const app = express ();
-const __filename = fileURLToPath(import.meta.url);
+const app = express (); //Inicialización de la aplicación ES Module 
+const __filename = fileURLToPath(import.meta.url); //permite obtener _dirname, rutas absolutas
 const __dirname = path.dirname(__filename);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use (cookieParser());
-app.use(passport.initialize());
-app.use((req, res, next) =>{
+
+//middleware base
+app.use(express.json()); //parseo de JSON
+app.use(express.urlencoded({ extended: true })); //parseo de formular
+app.use(cors()); //habilita CORS
+app.use (cookieParser()); //lectura de cookies para JWT
+app.use(passport.initialize()); //inicialización de Passport
+
+//Inyección de usuario en vistas (JWT), permite usar {{user}} en Handlebars desde req.user. Se debe activar.
+/*app.use((req, res, next) =>{
     res.locals.user = req.user || null;
     next();
-});
+});*/
 
+//almacenamiento del usuario en el servidor, como implementación alternativa a JWT
 app.use(session({
     secret: 'secretSessionKey',
     resave: false,
@@ -31,17 +36,17 @@ app.use(session({
     cookie:{maxAge: 100 * 60 * 60}
 }));
 
+//Rutas principales
 app.use('/api/session', sessionRouter);
 app.use('/', viewsRouter);
 
 
-
-
-//middlewares
+//Confirguración de Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
+//Ruta de base de prueba
 app.get("/", (req, res) =>{
     res.send ("Auth corriendo");
 });
