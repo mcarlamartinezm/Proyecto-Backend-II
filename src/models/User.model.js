@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  role: {
+  role: { //rol del usuario para control de acceso (RBAC)
     type: String,
     default: 'user'
   }
