@@ -8,7 +8,12 @@ import { authorize } from '../middlewares/role.middleware.js';
 const router = Router();
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    const success = req.query.success;
+    res.render('login', { success });
+});
+
+router.get('/register', (req, res) => {
+    res.render('register');
 });
 
 //====== Auth -no activado
@@ -34,7 +39,6 @@ router.get('/admin', auth, authorize('admin'), (req, res) => {
     res.send('Panel de administrador');
 }
 );
-
 
 
 

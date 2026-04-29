@@ -1,4 +1,4 @@
-import { UserModel } from '../models/user.model.js';
+import { UserModel } from '../models/User.model.js';
 import { createHash } from '../utils/hash.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -31,10 +31,7 @@ export const register = async (req, res) => {
 
     const result = await UserModel.create(newUser);
 
-    res.status(201).json({
-      message: 'Usuario creado correctamente',
-      user: result
-    });
+    res.redirect('/login?success=1'); //redirige a login cuando termina
 
   } catch (error) {
     console.error(error);

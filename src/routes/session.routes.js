@@ -51,10 +51,10 @@ router.post('/logout', (req, res) => {
     httpOnly: true, //no accesible desde JS
     secure: false, //true en produccion HTTPS
     sameSite: 'strict', //protección CSRF básica
-    maxAge: 100 * 60 * 60, // 1 hora
+    //maxAge no es necesario pues estamos cerrando la sesión. 
     path: '/' //disponible en toda la app
   });
-  res.send({ status: "success", message: "logout realizado correctamente"})
-}); //respuesta de confirmación de eliminación
+  res.redirect('/login?logout=1');
+}); //respuesta redireccionando a login
 
 export default router;
