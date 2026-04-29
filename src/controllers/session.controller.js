@@ -26,7 +26,7 @@ export const register = async (req, res) => {
       last_name,
       email,
       age,
-      password: createHash(password)
+      password: createHash(password) //bcrypt contraseña encriptada
     };
 
     const result = await UserModel.create(newUser);
@@ -103,7 +103,8 @@ export const login = async (req, res) => {
       httpOnly: true,
       sameSite: 'lax',
       secure: false,
-      maxAge: 60 * 60 * 1000 //1hora
+      maxAge: 60 * 60 * 1000, // 1 hora
+      path: '/'
     })
 
     // redirección a ruta protegida
