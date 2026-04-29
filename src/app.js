@@ -20,6 +20,7 @@ app.use(express.json()); //parseo de JSON
 app.use(express.urlencoded({ extended: true })); //parseo de formular
 app.use(cors()); //habilita CORS
 app.use (cookieParser()); //lectura de cookies para JWT
+app.use(express.static(path.join(__dirname, 'public'))); 
 app.use(passport.initialize()); //inicialización de Passport
 
 //Inyección de usuario en vistas (JWT), permite usar {{user}} en Handlebars desde req.user. Se debe activar.

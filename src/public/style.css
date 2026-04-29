@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #140a1f;
+    color: #eee;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 400px;
+    margin: 80px auto;
+    background: #1f1230;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(128, 0, 255, 0.2);
+    text-align: center;
+}
+
+/* Títulos */
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    color: #c084fc;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #e9d5ff;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: none;
+    background: #2c1a45;
+    color: white;
+}
+
+/* Botón */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #9333ea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #7e22ce;
+}
+
+/* Links */
+a {
+    color: #c084fc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Mensajes */
+p {
+    margin-top: 10px;
+}
