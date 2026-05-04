@@ -7,7 +7,42 @@ import passport from 'passport';
 const router = Router();
 
 router.post('/register', register); //registrar nuevo usuario
+
+//=======login manual (validación directa con bcrypt + JWT)
 router.post("/login", login); //validar credenciales y generar JWT
+
+//login con passport (local Strategy)
+router.post(
+  '/login-passport',
+  passport.authenticate('local', { session: false }),
+  async (req, res) => {
+    try {
+      const user = req.user;
+
+      const token = generateToken({
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        first_name: user.first_name
+      });
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+        maxAge: 60 * 60 * 1000,
+        path: '/'
+      });
+
+      res.json({ message: 'Login con Passport exitoso' });
+
+    } catch (error) {
+      res.status(500).json({ error: 'Error en login con Passport' });
+    }
+  }
+);
+
+//=========login con google
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email']})
 ); //redirección de google, pide acceso a perfil y mail de usuario.
 router.get(
@@ -27,7 +62,7 @@ router.get(
       res.cookie('token', token, { //guarda el token en una cookie segura
         httpOnly: true, //no accesible desde js (seguridad)
         sameSite: 'lax', //Protección CSRF básica
-        secure: false, //true en profuccipon con HTTPS
+        secure: false, //true en producción con HTTPS
         maxAge: 60 * 60 * 1000, // 1 hora
         path: '/' 
       });
@@ -40,21 +75,35 @@ router.get(
 );
 
 //test para verificar si existe el usuario en session
+//endopoint de prueba para verificar persisencia de sesión en el servidor
 router.get('/session-user', (req, res) => {
     res.json(req.session.user || 'No hay usuario en sesión');
 });
 
 
-//==== Eliminación de la cookie y cerrar sesión
+//==== Logout, destrucción de la sesión + eliminación de JWT (cookie)
 router.post('/logout', (req, res) => {
-  res.clearCookie('token', {
-    httpOnly: true, //no accesible desde JS
-    secure: false, //true en produccion HTTPS
-    sameSite: 'strict', //protección CSRF básica
-    //maxAge no es necesario pues estamos cerrando la sesión. 
-    path: '/' //disponible en toda la app
-  });
-  res.redirect('/login?logout=1');
-}); //respuesta redireccionando a login
+
+  // Destruye la sesión del servidor (si existe)
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Error al cerrar sesión');
+    }
+
+    // Limpia la cookie JWT del cliente
+    res.clearCookie('token', {
+      httpOnly: true, //no accesible desde JS
+      secure: false, //true en producción HTTPS
+      sameSite: 'lax', 
+      //maxAge no es necesario pues estamos cerrando la sesión. 
+      path: '/' //disponible en toda la app
+    });
+
+    // Redirige a login
+    res.redirect('/login?logout=1');
+  }); //respuesta redireccionando a login
+
+});
+
 
 export default router;

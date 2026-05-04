@@ -1,31 +1,29 @@
+/* Reset básico */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #140a1f;
-    color: #eee;
+    background: #1a1026; /* morado oscuro */
+    color: #f3e8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Contenedor principal */
+/* Contenedor */
 .container {
-    max-width: 400px;
-    margin: 80px auto;
-    background: #1f1230;
+    background: #2a1a3f;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(128, 0, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(128, 0, 255, 0.3);
+    width: 300px;
     text-align: center;
 }
 
 /* Títulos */
-h1 {
-    text-align: center;
-    margin-top: 40px;
-    color: #c084fc;
-}
-
 h2 {
     margin-bottom: 20px;
-    color: #e9d5ff;
+    color: #d8b4fe;
 }
 
 /* Inputs */
@@ -33,9 +31,9 @@ input {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
-    border-radius: 6px;
     border: none;
-    background: #2c1a45;
+    border-radius: 8px;
+    background: #3b2a5a;
     color: white;
 }
 
@@ -44,15 +42,17 @@ button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background: #9333ea;
-    color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
+    background: #a855f7;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-    background: #7e22ce;
+    background: #9333ea;
 }
 
 /* Links */

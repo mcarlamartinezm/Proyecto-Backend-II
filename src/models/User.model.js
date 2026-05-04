@@ -23,9 +23,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  role: { //rol del usuario para control de acceso (RBAC)
+  role: { //rol del usuario para control de acceso basado e roles (RBAC)
     type: String,
-    default: 'user'
+    enum: ['user', 'admin'], //valores permitidos
+  default: 'user'
   }
 });
 
